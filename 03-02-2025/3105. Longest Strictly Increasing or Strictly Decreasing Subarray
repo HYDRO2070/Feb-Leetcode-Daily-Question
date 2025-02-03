@@ -1,0 +1,64 @@
+class Solution {
+public:
+    int longestMonotonicSubarray(vector<int>& nums) {
+        int n = nums.size() - 1;
+        int inc_size = 0, dec_size = 0;
+        int t1 = 0, t2 = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] < nums[i + 1]) {
+                if(t1 == 0) t1 += 2;
+                else t1 += 1;
+                if(t2 != 0){
+                    // dec_size = max(dec_size,t2+1);
+                    t2 = 0;
+                }
+            } else if (nums[i] > nums[i + 1]) {
+                if(t2 == 0) t2 += 2;
+                else t2 += 1;
+                // t1 = 0;
+                if(t1 != 0){
+                    // inc_size = max(inc_size,t1+1);
+                    t1 = 0;
+                }
+            }
+            else{
+                t1 = 0;
+                t2 = 0;
+            }
+            // cout<<t1<<" "<<t2<<endl;
+            inc_size = max(inc_size,t1);
+            dec_size = max(dec_size,t2);
+        }
+        return max(inc_size,max(dec_size,1));
+    }
+};
+
+
+
+
+class Solution {
+public:
+    int longestMonotonicSubarray(vector<int>& nums) {
+        const int n = nums.size() - 1;
+        string inc_size = "0", dec_size = "0";
+        string t1 = "0", t2 = "0";
+
+        for (int i = 0; i < n; i++) {
+            if (nums[i] < nums[i + 1]) {
+                if (t1 == "0") t1 = "2"; 
+                else t1 = to_string(stoi(t1) + 1);
+                if (t2 != "0") t2 = "0";
+            } else if (nums[i] > nums[i + 1]) {
+                if (t2 == "0") t2 = "2";
+                else t2 = to_string(stoi(t2) + 1); 
+                if (t1 != "0") t1 = "0";
+            } else {
+                t1 = "0";
+                t2 = "0";
+            }
+            inc_size = to_string(max(stoi(inc_size), stoi(t1)));
+            dec_size = to_string(max(stoi(dec_size), stoi(t2)));
+        }
+        return max(stoi(inc_size), max(stoi(dec_size), 1));
+    }
+};
